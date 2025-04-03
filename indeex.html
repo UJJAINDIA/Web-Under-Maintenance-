@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Maintenance</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #550000, #000000);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            flex-direction: column;
+            padding: 20px;
+            animation: fadeIn 2s ease-in-out;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        .container {
+            max-width: 90%;
+            width: 600px;
+            padding: 30px;
+            background: linear-gradient(145deg, #330000, #110000);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+            border-radius: 20px;
+            animation: slideUp 1s ease-in-out, glowBorder 2s infinite alternate;
+            border: 2px solid rgba(255, 0, 0, 0.4);
+        }
+        @keyframes slideUp {
+            0% { transform: translateY(50px) scale(0.9); opacity: 0; }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+        @keyframes glowBorder {
+            0% { box-shadow: 0 0 10px #ff0000; }
+            100% { box-shadow: 0 0 20px #ff0000; }
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 10px rgba(255, 0, 0, 0.6);
+            animation: fadeIn 2s ease-in-out;
+        }
+        p {
+            font-size: 1em;
+            margin-bottom: 20px;
+        }
+        .countdown-box {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .countdown-item {
+            background: rgba(255, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 1.5em;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+        .countdown-label {
+            display: block;
+            font-size: 0.8em;
+            margin-top: 5px;
+        }
+        .loader {
+            border: 5px solid rgba(255, 255, 255, 0.2);
+            border-top: 5px solid #ff0000;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite, glow 1.5s ease-in-out infinite alternate;
+            margin: 20px auto;
+            box-shadow: 0 0 20px #ff0000;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes glow {
+            0% { box-shadow: 0 0 10px #ff0000; }
+            100% { box-shadow: 0 0 30px #ff0000; }
+        }
+        .subscribe-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 30px;
+        }
+        .subscribe-input {
+            padding: 10px;
+            margin-bottom: 15px;
+            width: 100%;
+            max-width: 300px;
+            border-radius: 5px;
+            border: 1px solid #ff0000;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        .subscribe-button {
+            padding: 10px 20px;
+            background: #ff0000;
+            border: none;
+            color: white;
+            font-size: 1em;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+        .subscribe-button:hover {
+            background: #d50000;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .container {
+                width: 85%;
+                padding: 20px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            p {
+                font-size: 1em;
+            }
+            .countdown-item {
+                font-size: 1.3em;
+                padding: 8px;
+            }
+            .subscribe-input {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                width: 90%;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            p {
+                font-size: 0.9em;
+            }
+            .countdown-item {
+                font-size: 1.1em;
+                padding: 6px;
+            }
+            .subscribe-button {
+                font-size: 0.9em;
+                padding: 8px 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>We're Under Maintenance</h1>
+        <p>Our servers are currently undergoing scheduled maintenance. We apologize for the inconvenience.</p>
+        <div class="countdown-box">
+            <div class="countdown-item"><span id="days">0</span><span class="countdown-label">Days</span></div>
+            <div class="countdown-item"><span id="hours">0</span><span class="countdown-label">Hours</span></div>
+            <div class="countdown-item"><span id="minutes">0</span><span class="countdown-label">Minutes</span></div>
+            <div class="countdown-item"><span id="seconds">0</span><span class="countdown-label">Seconds</span></div>
+        </div>
+        <div class="loader"></div>
+        <p>Please check back later.</p>
+
+        <!-- Subscription Form -->
+        <div class="subscribe-form">
+            <h2>Stay Updated</h2>
+            <p>Enter your email to subscribe and get notified when the service is back up!</p>
+            <input type="email" id="email" class="subscribe-input" placeholder="Enter your email" required />
+            <button class="subscribe-button" onclick="subscribe()">Subscribe</button>
+        </div>
+    </div>
+
+    <script>
+        // Set the countdown end time to 7 days from now
+        const endTime = Date.now() + (7 * 24 * 60 * 60 * 1000);
+
+        function updateCountdown() {
+            const now = Date.now();
+            let durationInSeconds = Math.floor((endTime - now) / 1000);
+            
+            let days = Math.floor(durationInSeconds / (60 * 60 * 24));
+            let hours = Math.floor((durationInSeconds % (60 * 60 * 24)) / (60 * 60));
+            let minutes = Math.floor((durationInSeconds % (60 * 60)) / 60);
+            let seconds = durationInSeconds % 60;
+            
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+            
+            if (durationInSeconds > 0) {
+                setTimeout(updateCountdown, 1000);
+            }
+        }
+        updateCountdown();
+
+        // Simple email subscription function (modify for your server setup)
+        function subscribe() {
+            const email = document.getElementById('email').value;
+            if (email) {
+                // Sending the email to the server
+                fetch('send-email.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email: email }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Thank you for subscribing with email: ' + email);
+                        document.getElementById('email').value = '';  // Clear the input
+                    } else {
+                        alert('There was an issue with your subscription. Please try again later.');
+                    }
+                })
+                .catch(error => {
+                    alert('An error occurred. Please try again later.');
+                });
+            } else {
+                alert('Please enter a valid email address.');
+            }
+        }
+    </script>
+</body>
+</html>
+
